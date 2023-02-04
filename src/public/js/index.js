@@ -1,11 +1,24 @@
 const socket = io()
 
-const message = document.getElementById('message')
+const messageFromServer = document.getElementById('messageFromServer')
+const chat = document.getElementById('chat')
+const messages = document.getElementById('messages')
+
 
 socket.emit('messageFromClient','Este es un mensaje del Cliente')
 
+
+
 socket.on('messageFromServer', data =>{
-    message.innerHTML = data
+    messageFromServer.innerHTML = data
 })
 
+chat.addEventListener('keyup', e => {
+    if(e.key === 'Enter'){
+        socket.emit('chatFromClient', chat.value)
+    }
+})
 
+socket.on('messageForChat', data =>{
+    messages.innerHTML = data
+})
